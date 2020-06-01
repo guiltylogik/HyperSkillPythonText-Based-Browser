@@ -33,5 +33,12 @@ Twitter and Square Chief Executive Officer Jack Dorsey
  addressed Apple Inc. employees at the iPhone maker’s headquarters
  Tuesday, a signal of the strong ties between the Silicon Valley giants.
 '''
+wed_addr = [nytimes_com, bloomberg_com]
+while True:
+    url = input()
 
-# write your code here
+    if url == 'exit':
+        break
+    addr = url.replace('.', '_')
+    index = 0 if addr == 'nytimes_com' else 1
+    print(wed_addr[index])
