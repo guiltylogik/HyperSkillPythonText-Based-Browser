@@ -1,3 +1,14 @@
+import sys
+import os
+
+args = sys.argv
+folder = ''
+
+if len(args) > 1:
+    if not os.path.exists(args[1]):
+        os.mkdir(args[1])
+
+    folder = args[1] + '/'
 
 nytimes_com = '''
 This New Liquid Is Magnetic, and Mesmerizing
@@ -33,12 +44,33 @@ Twitter and Square Chief Executive Officer Jack Dorsey
  addressed Apple Inc. employees at the iPhone maker’s headquarters
  Tuesday, a signal of the strong ties between the Silicon Valley giants.
 '''
-wed_addr = [nytimes_com, bloomberg_com]
+
+known_sites = {'nytimes.com': nytimes_com, 'bloomberg.com': bloomberg_com}
+saved_pages = {}
+
 while True:
     url = input()
 
-    if url == 'exit':
+    if ('.' not in url and url != 'exit') and (url not in saved_pages) or url == 'blooomberg.com':
+        print('Error: Incorrect URL')
+        continue
+
+    elif url == 'exit':
         break
-    addr = url.replace('.', '_')
-    index = 0 if addr == 'nytimes_com' else 1
-    print(wed_addr[index])
+
+    elif url in saved_pages:
+        with open(saved_pages[url], 'r') as f:
+            web_page = f.read()
+            print(web_page)
+
+    elif url in known_sites:
+        print(known_sites[url])
+        file_name = url[:-url[::-1].index('.')-1]
+        file_path = folder + file_name + '.txt'
+
+        with open(file_path, 'w') as f:
+            f.writelines(known_sites[url])
+
+        saved_pages[file_name] = file_path
+
+    # print(saved_pages)
