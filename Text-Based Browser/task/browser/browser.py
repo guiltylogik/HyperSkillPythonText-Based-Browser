@@ -47,16 +47,25 @@ Twitter and Square Chief Executive Officer Jack Dorsey
 
 known_sites = {'nytimes.com': nytimes_com, 'bloomberg.com': bloomberg_com}
 saved_pages = {}
+history = []
 
 while True:
     url = input()
 
-    if ('.' not in url and url != 'exit') and (url not in saved_pages) or url == 'blooomberg.com':
+    if url == 'back':
+        if len(history) == 0:
+            continue
+        else:
+            history.pop()
+            if len(history) != 0:
+                print(known_sites[history.pop()])
+
+    elif ('.' not in url and url != 'exit') and (url not in saved_pages) or url == 'blooomberg.com':
         print('Error: Incorrect URL')
         continue
 
     elif url == 'exit':
-        break
+        sys.exit()
 
     elif url in saved_pages:
         with open(saved_pages[url], 'r') as f:
@@ -72,5 +81,6 @@ while True:
             f.writelines(known_sites[url])
 
         saved_pages[file_name] = file_path
+        history.append(url)
 
     # print(saved_pages)
